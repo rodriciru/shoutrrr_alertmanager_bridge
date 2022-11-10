@@ -6,6 +6,8 @@ Created by modifying code from https://github.com/aTable/ntfy_alertmanager_bridg
 
 It sends a shoutrrr send command PER ALERT, so if in one request you have 4 alerts, it will send 4 times
 
+Maybe, this should be writen in go, but i never do anything in that language, so i use js.
+
 This bridge receives data in [this format](https://prometheus.io/docs/alerting/latest/notifications/#alert) in the [alertmanager webhook config](alertmanager/alertmanager/config.yml):
 
 ```sh

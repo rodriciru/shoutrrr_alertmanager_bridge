@@ -3,15 +3,16 @@ version: "3.7"
 services:
 
   shoutrrr_alertmanager_bridge:
-    build: 
+    build:
       context: src
-      dockerfile: Dockerfile    
-    container_name: shoutrrr_alertmanager_bridge    
+      dockerfile: Dockerfile
+    container_name: shoutrrr_alertmanager_bridge
+    #image: ghcr.io/rodriciru/shoutrrr_alertmanager_bridge:main
     volumes:
       - ./s_a_b/:/etc/s_a_b/
-    ports: 
+    ports:
       - 30000:30000
-    #environment: 
+      #environment: 
       #- SERVICES_CONFIG=/etc/s_a_b/services.json
       #- TEMPLATES_PATH=/etc/s_a_b/templates/
 
@@ -33,11 +34,10 @@ services:
     volumes:
       - ./alertmanager/alertmanager/:/etc/alertmanager/
       # - ./alertmanager/storage/:/alertmanager/
-    restart: always   
+    restart: always
     command:
       - "--config.file=/etc/alertmanager/config.yml"
 
-  
   prometheus:
     container_name: prometheus
     image: prom/prometheus:latest
@@ -52,4 +52,3 @@ services:
       - "--web.console.libraries=/usr/share/prometheus/console_libraries"
       - "--web.console.templates=/usr/share/prometheus/consoles"
     restart: always
-    
