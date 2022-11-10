@@ -15,6 +15,15 @@ services:
       #- SERVICES_CONFIG=/etc/s_a_b/services.json
       #- TEMPLATES_PATH=/etc/s_a_b/templates/
 
+  gotify:
+    container_name: gotify
+    image: gotify/server:latest
+    ports:
+      - 8080:80
+    volumes:
+      - ./gotify:/app/data
+      - ./gotify/config.yml:/etc/gotify/config.yml
+    restart: always
 
   alertmanager:
     container_name: alertmanager
