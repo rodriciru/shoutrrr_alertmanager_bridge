@@ -1,0 +1,15 @@
+global:
+
+route:
+  group_by: ["alertname", "cluster", "service"]
+  group_wait: 20s
+  group_interval: 1m
+  repeat_interval: 20s
+  receiver: shoutrrr-servers
+
+receivers:
+  - name: "shoutrrr-servers"
+    webhook_configs:
+      - url: http://shoutrrr_alertmanager_bridge:30000/shoutrrr_alert/serviceName?shoutrrrServiceParamsKey=shoutrrrServiceParamsValue&shoutrrrServiceParamsKey2=shoutrrrServiceParamsValue2
+        send_resolved: true
+        max_alerts: 0
