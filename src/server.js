@@ -55,9 +55,13 @@ router
     let service = servicesJSON.filter(function (item) { return item.name === ctx.params.service; })[0];
 
     if (service !== undefined) { // Cool! We have a configured service
-      let templateSource = fs.readFileSync(config.templatesPath + service.template).toString();
-      let template = Handlebars.compile(templateSource);
+      let templateSourceOriginal = fs.readFileSync(config.templatesPath + service.template).toString();
+      let alertN = 0;
       for (const x of ctx.request.body.alerts) {
+        let templateSource = templateSourceOriginal.replaceAll(/{{(?!reqBody)/g, `{{alerts.[${alertN}].`);
+        templateSource = templateSource.replaceAll('reqBody.', "");
+        let template = Handlebars.compile(templateSource);
+        alertN++;
         let url = new URL(service.url);
         let search_params = url.searchParams;
 
@@ -83,7 +87,7 @@ router
         
         url.search = search_params.toString();
         url = (decodeURIComponent(url));
-        var html = template(x).replaceAll('"', "\\\"");
+        var html = template(ctx.request.body).replaceAll('"', "\\\"");
 
         console.log(`Sending to ${url}\n${html}`);
         try {

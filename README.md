@@ -2,11 +2,12 @@
 
 A basic alertmanager bridge to shoutrrr.
 
+Maybe, this should be writen in go, but i never do anything in that language, so i use js.
+
 Created by modifying code from https://github.com/aTable/ntfy_alertmanager_bridge
 
-It sends a shoutrrr send command PER ALERT, so if in one request you have 4 alerts, it will send 4 times
+It sends a `shoutrrr send` command PER ALERT, so if in one request you have 4 alerts, it will send 4 times
 
-Maybe, this should be writen in go, but i never do anything in that language, so i use js.
 
 This bridge receives data in [this format](https://prometheus.io/docs/alerting/latest/notifications/#alert) in the [alertmanager webhook config](alertmanager/alertmanager/config.yml):
 
@@ -30,7 +31,7 @@ environment:
 ```
 or better, mount a volume in `/etc/s_a_b/` with services.json and template folder
 
-Services.json file expect a JSON Array with your configuration for shoutrrr services.
+Services.json file expect a JSON Array with your configuration for shoutrrr services:
 
 ```sh
 [
@@ -70,6 +71,28 @@ The [docker-compose.yml](docker-compose.yml) contains a prometheus+alertmanager+
       #- TEMPLATES_PATH=/etc/s_a_b/templates/
 
 ...
+```
+
+In `.hbs` template you can prefix variable with `reqBody.`. In this case, this value comes from the JSON posted to [alert manager](https://prometheus.io/docs/alerting/latest/configuration/#webhook_config). If no reqBody is find, it will asumme is from the current alert. See [templateName.hbs](s_a_b/templates/templateName.hbs) or [gotify.hbs](s_a_b/templates/gotify.hbs)
+
+Services.json file expect a JSON Array with your configuration for shoutrrr services:
+
+```sh
+[
+    {
+        "name": "Give_me_a_cool_name_please",
+        "url": "shoutrrr_url_from_service",
+        "template": "cooltemplatename.hbs",
+        "replaceInURL": [
+            {
+                "shoutrrrProp": "Subject",
+                "by": "fingerprint",
+                "byAlert": true
+            }
+        ]
+    }
+    ...
+]
 ```
 
 Do note this is just a prototype, it works FOR ME, but maybe for you, it works as well.
