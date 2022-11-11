@@ -54,7 +54,7 @@ You need to give a name, which will be used in your receiver's URL from alertman
 
 Also, you have to put a shoutrrr service URL, the name of the template, and if you want, you can replace dynamically some values in the shoutrrr service URL. byAlert means look in every alert, and not in the JSON posted
 
-The [docker-compose.yml](docker-compose.yml) contains a prometheus+alertmanager+shoutrrr_alertmanager_bridge if you want to run the stack as is. Or if you want to pull just the shoutrrr_alertmanager_bridge simply add to your docker-compose.yml:
+The [docker-compose.yml](docker-compose.yml) contains a prometheus+alertmanager+shoutrrr_alertmanager_bridge+gotify if you want to run the stack as is. Or if you want to pull just the shoutrrr_alertmanager_bridge simply add to your docker-compose.yml:
 
 ```sh
 ...
